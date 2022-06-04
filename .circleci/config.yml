@@ -18,7 +18,7 @@ jobs:
       - image: cimg/ruby:3.1.2
       - image: cimg/postgres:14.2
         environment:
-          POSTGRES_DB: postgres
+          POSTGRES_DB: wordee_bot_test
     environment:
       DB_HOST: postgres
       RAILS_ENV: test
