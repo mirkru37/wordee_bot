@@ -1,11 +1,8 @@
 version: 2.1
 
-jobs:
-  build:
-    docker:
-      - image: cimg/ruby:3.1.2
+commands: # a reusable command with parameters
+  load_gems:
     steps:
-      - checkout
       - restore_cache:
           key: circlev2-{{ checksum "Gemfile.lock" }}
       - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
@@ -15,16 +12,27 @@ jobs:
           paths:
             - vendor/bundle
 
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:3.1.2
+    steps:
+      - checkout
+      - load_gems
+
+
   lefthook:
     docker:
       - image: cimg/ruby:3.1.2
     steps:
+      - load_gems
       - run: bundle exec lefthook run pre-commit
   
   test:
     docker:
       - image: cimg/ruby:3.1.2
     steps:
+      - load_gems
       - run: bundle exec rspec
 
 workflows:
