@@ -25,6 +25,7 @@ jobs:
     docker:
       - image: cimg/ruby:3.1.2
     steps:
+      - checkout
       - load_gems
       - run: bundle exec lefthook run pre-commit
   
@@ -32,6 +33,7 @@ jobs:
     docker:
       - image: cimg/ruby:3.1.2
     steps:
+      - checkout
       - load_gems
       - run: bundle exec rspec
 
