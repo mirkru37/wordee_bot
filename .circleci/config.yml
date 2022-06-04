@@ -23,9 +23,7 @@ jobs:
   lefthook:
     executor: default-executor
     steps:
-      - run:
-          name: Run lefthook
-          command: bundle exec lefthook run pre-commit
+      - run: bundle exec lefthook run pre-commit
 
 workflows:
   linters:
