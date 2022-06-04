@@ -50,6 +50,7 @@ jobs:
       RAILS_ENV: test
     steps:
       - checkout
+      - load_gems
       - run: bundle exec lefthook run pre-commit
   
   test:
@@ -67,15 +68,12 @@ jobs:
       RAILS_ENV: test
     steps:
       - checkout
+      - load_gems
       - run: bundle exec rspec
 
 workflows:
   linters:
     jobs:
       - build
-      - lefthook:
-          requires:
-            - build
-      - test:
-          requires:
-            - build
+      - lefthook
+      - test
