@@ -17,9 +17,23 @@ jobs:
     docker:
       - image: cimg/ruby:3.1.2
       - image: cimg/postgres:14.2
+        environment:
+          POSTGRES_DB: wordee_bot_test
+          POSTGRES_USER: wordee_bot_postgresql
+          POSTGRES_PASSWORD: wordee_bot_postgresql
+
+    environment:
+      PGHOST: 127.0.0.1
+      PGUSER: wordee_bot_postgresql
+      PGPASSWORD: wordee_bot_postgresql
+      RAILS_ENV: test
+          
     steps:
       - checkout
       - load_gems
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
       - run: bundle exec rails db:setup --trace
 
 
@@ -27,6 +41,8 @@ jobs:
     docker:
       - image: cimg/ruby:3.1.2
       - image: cimg/postgres:14.2
+        environment:
+          POSTGRES_DB: postgres
     steps:
       - checkout
       - run: bundle exec lefthook run pre-commit
@@ -35,6 +51,8 @@ jobs:
     docker:
       - image: cimg/ruby:3.1.2
       - image: cimg/postgres:14.2
+        environment:
+          POSTGRES_DB: postgres
     steps:
       - checkout
       - run: bundle exec rspec
