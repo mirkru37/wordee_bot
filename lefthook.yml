@@ -1,0 +1,11 @@
+ pre-commit:
+   parallel: true
+   commands:
+     vulnerability:
+       run: bundle exec brakeman --no-pager
+     memory-leak:
+       run: bundle exec bundler-leak
+     gems-check:
+       run: bundle exec bundler-audit check --update
+     rubocop:
+       run: bundle exec rubocop
