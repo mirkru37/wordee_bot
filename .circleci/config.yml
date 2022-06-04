@@ -19,6 +19,7 @@ jobs:
     steps:
       - checkout
       - load_gems
+      - run: bundle exec rails db:setup --trace
 
 
   lefthook:
@@ -26,7 +27,6 @@ jobs:
       - image: cimg/ruby:3.1.2
     steps:
       - checkout
-      - load_gems
       - run: bundle exec lefthook run pre-commit
   
   test:
@@ -34,7 +34,6 @@ jobs:
       - image: cimg/ruby:3.1.2
     steps:
       - checkout
-      - load_gems
       - run: bundle exec rspec
 
 workflows:
