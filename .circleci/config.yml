@@ -13,13 +13,17 @@ jobs:
       - run:
           name: Which bundler?
           command: bundle -v
-      - bundle-install
+      - run:
+          name: Install gems
+          command: bundle install
   lefthook:
     docker:
       - image: cimg/ruby:3.1.2
     executor: ruby/default
     steps:
-      - bundle exec run pre-commit
+      - run:
+          name: Run lefthook
+          command: bundle exec run pre-commit
 
 workflows:
   linters:
