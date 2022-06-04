@@ -16,7 +16,7 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:3.1.2
-      - image: cimg/postgres:14.2.0
+      - image: cimg/postgres:14.2
     steps:
       - checkout
       - load_gems
@@ -26,7 +26,7 @@ jobs:
   lefthook:
     docker:
       - image: cimg/ruby:3.1.2
-      - image: cimg/postgres:14.2.0
+      - image: cimg/postgres:14.2
     steps:
       - checkout
       - run: bundle exec lefthook run pre-commit
