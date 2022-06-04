@@ -19,8 +19,13 @@ jobs:
       - image: cimg/postgres:14.2
         environment:
           POSTGRES_DB: wordee_bot_test
+          POSTGRES_USER: wordee_bot_postgresql
+          POSTGRES_PASSWORD: wordee_bot_postgresql
+
     environment:
-      DB_HOST: postgres
+      PGHOST: 127.0.0.1
+      PGUSER: wordee_bot_postgresql
+      PGPASSWORD: wordee_bot_postgresql
       RAILS_ENV: test
           
     steps:
