@@ -1,0 +1,79 @@
+version: 2.1
+
+commands: # a reusable command with parameters
+  load_gems:
+    steps:
+      - restore_cache:
+          key: circlev2-{{ checksum "Gemfile.lock" }}
+      - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+      # Store bundle cache
+      - save_cache:
+          key: circlev2-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:3.1.2
+      - image: cimg/postgres:14.2
+        environment:
+          POSTGRES_DB: wordee_bot_test
+          POSTGRES_USER: wordee_bot_postgresql
+          POSTGRES_PASSWORD: wordee_bot_postgresql
+    environment:
+      PGHOST: 127.0.0.1
+      PGUSER: wordee_bot_postgresql
+      PGPASSWORD: wordee_bot_postgresql
+      RAILS_ENV: test
+    steps:
+      - checkout
+      - load_gems
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
+      - run: bundle exec rails db:setup --trace
+
+
+  lefthook:
+    docker:
+      - image: cimg/ruby:3.1.2
+      - image: cimg/postgres:14.2
+        environment:
+          POSTGRES_DB: wordee_bot_test
+          POSTGRES_USER: wordee_bot_postgresql
+          POSTGRES_PASSWORD: wordee_bot_postgresql
+    environment:
+      PGHOST: 127.0.0.1
+      PGUSER: wordee_bot_postgresql
+      PGPASSWORD: wordee_bot_postgresql
+      RAILS_ENV: test
+    steps:
+      - checkout
+      - load_gems
+      - run: bundle exec lefthook run pre-commit
+  
+  test:
+    docker:
+      - image: cimg/ruby:3.1.2
+      - image: cimg/postgres:14.2
+        environment:
+          POSTGRES_DB: wordee_bot_test
+          POSTGRES_USER: wordee_bot_postgresql
+          POSTGRES_PASSWORD: wordee_bot_postgresql
+    environment:
+      PGHOST: 127.0.0.1
+      PGUSER: wordee_bot_postgresql
+      PGPASSWORD: wordee_bot_postgresql
+      RAILS_ENV: test
+    steps:
+      - checkout
+      - load_gems
+      - run: bundle exec rspec
+
+workflows:
+  linters:
+    jobs:
+      - build
+      - lefthook
+      - test
