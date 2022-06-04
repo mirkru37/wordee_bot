@@ -3,30 +3,33 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@1.4.0
 
-executors:
-  default-executor:
-    docker:
-      - image: cimg/ruby:3.1.2
-
 jobs:
   build:
-    executor: default-executor
+    docker:
+      - image: cimg/ruby:3.1.2
     steps:
       - checkout
-      - restore_cache:
-          key: circlev2-{{ checksum "Gemfile.lock" }}
-      - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
-      - save_cache:
-          key: circlev2-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
+      - ruby/install-deps
+
   lefthook:
-    executor: default-executor
+    docker:
+      - image: cimg/ruby:3.1.2
     steps:
       - run: bundle exec lefthook run pre-commit
+  
+  test:
+    docker:
+      - image: cimg/ruby:3.1.2
+    steps:
+      - ruby/rspec-test
 
 workflows:
   linters:
     jobs:
       - build
-      - lefthook
+      - lefthook:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
