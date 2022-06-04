@@ -19,8 +19,9 @@ jobs:
       - image: cimg/postgres:14.2
         environment:
           POSTGRES_DB: postgres
-          DB_HOST: postgres
-          RAILS_ENV: test
+    environment:
+      DB_HOST: postgres
+      RAILS_ENV: test
           
     steps:
       - checkout
