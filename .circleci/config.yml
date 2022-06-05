@@ -32,6 +32,8 @@ jobs:
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
+      - run: echo "${MASTER_KEY}" > config/master.key
+      - run: echo "${TEST_KEY}" > config/credentials/test.key
       - run: bundle exec rails db:setup --trace
 
 
@@ -69,6 +71,8 @@ jobs:
     steps:
       - checkout
       - load_gems
+      - run: echo "${MASTER_KEY}" > config/master.key
+      - run: echo "${TEST_KEY}" > config/credentials/test.key
       - run: bundle exec rspec
 
 workflows:
