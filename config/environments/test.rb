@@ -52,5 +52,6 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   # Make bots stubbed before processing routes.rb:
+  Telegram.reset_bots
   Telegram::Bot::ClientStub.stub_all!
 end

@@ -19,3 +19,7 @@ Style/Documentation:
 
 Style/SignalException:
   Enabled: false
+
+RSpec/FilePath:
+  Exclude:
+    - spec/requests/telegram/**/*

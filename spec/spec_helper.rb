@@ -1,6 +1,6 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
-  minimum_coverage 0
+  minimum_coverage 80
 end
 
 RSpec.configure do |config|
