@@ -74,5 +74,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Set application domain, to be able to run `rake telegram:bot:set_webhook`
-  # routes.default_url_options = {host: 'yourdomain.com', protocol: 'https'}
+  routes.default_url_options = { host: 'wordee-bot.herokuapp.com', protocol: 'https' }
 end
