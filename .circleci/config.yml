@@ -71,6 +71,8 @@ jobs:
     steps:
       - checkout
       - load_gems
+      - run: echo "${MASTER_KEY}" > config/master.key
+      - run: echo "${TEST_KEY}" > config/credentials/test.key
       - run: bundle exec rspec
 
 workflows:
