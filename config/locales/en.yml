@@ -5,3 +5,7 @@ en:
         action_missing: "I'm not ready to do '%{command}' command. Try another one."
     private_chat:
       buttplug: 'Pass'
+    commands:
+      start: 'Greetings @%{user}!. To see what i can do, type /help'
+  nicknames:
+    default_username: 'user'

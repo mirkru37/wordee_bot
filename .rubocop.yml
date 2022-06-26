@@ -23,3 +23,10 @@ Style/SignalException:
 RSpec/FilePath:
   Exclude:
     - spec/requests/telegram/**/*
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - spec/lib/**/*
+
+RSpec/NestedGroups:
+  Enabled: false
