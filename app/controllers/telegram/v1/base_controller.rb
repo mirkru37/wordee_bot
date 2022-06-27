@@ -5,13 +5,7 @@ module Telegram
         return unless action_type == :command
 
         respond_with :message,
-                     text: "missing command #{action_options[:command]}"
-      end
-
-      class << self
-        def match_command?(**)
-          false
-        end
+                     text: I18n.t('bot.common.alert.action_missing', command: action_options[:command])
       end
     end
   end

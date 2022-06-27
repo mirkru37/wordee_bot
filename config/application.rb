@@ -36,5 +36,6 @@ module WordeeBot
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.telegram_updates_controller.session_store = :memory_store, { expires_in: 1.day }
+    config.autoload_paths += %w[lib/]
   end
 end
