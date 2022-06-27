@@ -145,7 +145,7 @@ RSpec.describe Common::Model do
       let(:ctx) { { option: :value } }
       let(:parent) { parent_double }
       let(:options) { { key: %i[option] } }
-      let(:expected_options) { { key: :value }}
+      let(:expected_options) { { key: :value } }
 
       before do
         stub_const('Parent', Class.new)
