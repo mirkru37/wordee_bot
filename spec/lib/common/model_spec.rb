@@ -140,5 +140,22 @@ RSpec.describe Common::Model do
         end
       end
     end
+
+    context 'with nested options' do
+      let(:ctx) { { option: :value } }
+      let(:parent) { parent_double }
+      let(:options) { { key: %i[option] } }
+      let(:expected_options) { { key: :value }}
+
+      before do
+        stub_const('Parent', Class.new)
+        allow(parent_double).to receive(method_key).and_return(method_return)
+      end
+
+      it 'calls method on parent' do
+        result
+        expect(parent).to have_received(method_key).with(expected_options)
+      end
+    end
   end
 end

@@ -1,8 +1,9 @@
 RSpec.describe Telegram::V1::Chats::Register do
-  subject(:result) { described_class.call(id:, chat_type:) }
+  subject(:result) { described_class.call(chat:) }
 
   let(:id) { 1 }
-  let(:chat_type) { 'private' }
+  let(:type) { 'private' }
+  let(:chat) { { id:, type: } }
 
   context 'with new chat' do
     it 'succeeds' do
@@ -20,13 +21,13 @@ RSpec.describe Telegram::V1::Chats::Register do
 
     it 'passed chat_type to the new record' do
       result
-      expect(Chat.last.chat_type).to eq(chat_type)
+      expect(Chat.last.chat_type).to eq(type)
     end
   end
 
   context 'with existing chat' do
     before do
-      described_class.call(id:, chat_type:)
+      described_class.call(chat:)
     end
 
     it 'fails' do

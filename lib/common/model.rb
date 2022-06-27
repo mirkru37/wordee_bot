@@ -28,9 +28,13 @@ module Common
 
     def transformed_options
       @transformed_options ||= options.map.to_h do |property, property_key|
-        value = ctx[property_key] || property_key
+        value = exctract_value(property_key) || property_key
         [property, value]
       end
+    end
+
+    def exctract_value(path)
+      ctx&.dig(*Array(path))
     end
   end
 end
